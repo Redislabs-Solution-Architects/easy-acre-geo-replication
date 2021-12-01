@@ -230,6 +230,65 @@
           "tags": {}
         }
       ]
-    }
+    },
+    {
+            "type": "microsoft.insights/metricAlerts",
+            "apiVersion": "2018-03-01",
+            "name": "Critical Alerts - Static",
+            "location": "global",
+            "properties": {
+                "severity": 0,
+                "enabled": true,
+                "scopes": [
+                    "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name,'/providers/Microsoft.Cache/redisEnterprise/',variables('acre_name_1'))]"
+                ],
+                "evaluationFrequency": "PT1M",
+                "windowSize": "PT5M",
+                "criteria": {
+                    "allOf": [
+                        {
+                            "threshold": 80,
+                            "name": "Metric1",
+                            "metricNamespace": "Microsoft.Cache/redisEnterprise",
+                            "metricName": "usedmemorypercentage",
+                            "operator": "GreaterThan",
+                            "timeAggregation": "Maximum",
+                            "criterionType": "StaticThresholdCriterion"
+                        },
+                        {
+                            "threshold": 10,
+                            "name": "Metric2",
+                            "metricNamespace": "Microsoft.Cache/redisEnterprise",
+                            "metricName": "cacheLatency",
+                            "operator": "GreaterThan",
+                            "timeAggregation": "Average",
+                            "criterionType": "StaticThresholdCriterion"
+                        },
+                        {
+                            "threshold": 0,
+                            "name": "Metric3",
+                            "metricNamespace": "Microsoft.Cache/redisEnterprise",
+                            "metricName": "evictedkeys",
+                            "operator": "GreaterThan",
+                            "timeAggregation": "Total",
+                            "criterionType": "StaticThresholdCriterion"
+                        },
+                        {
+                            "threshold": 5000,
+                            "name": "Metric4",
+                            "metricNamespace": "Microsoft.Cache/redisEnterprise",
+                            "metricName": "connectedclients",
+                            "operator": "GreaterThan",
+                            "timeAggregation": "Maximum",
+                            "criterionType": "StaticThresholdCriterion"
+                        }
+                    ],
+                    "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                },
+                "autoMitigate": true,
+                "targetResourceType": "Microsoft.Cache/redisEnterprise",
+                "actions": []
+            }
+        }
   ]
 }
